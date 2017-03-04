@@ -1,4 +1,4 @@
-service: accure-api
+service: accure-api-thread
 
 frameworkVersion: ">=1.1.0 <2.0.0"
 
@@ -6,7 +6,7 @@ provider:
   name: aws
   runtime: python2.7
   environment:
-    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}-thread
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -20,44 +20,44 @@ provider:
 
 functions:
   create:
-    handler: todos/create.create
+    handler: post.post
     events:
       - http:
-          path: todos
+          path: thread
           method: post
           cors: true
 
-  list:
-    handler: todos/list.list
+  get_list:
+    handler: list_get.list_get
     events:
       - http:
-          path: todos
+          path: thread
           method: get
           cors: true
 
-  get:
-    handler: todos/get.get
-    events:
-      - http:
-          path: todos/{id}
-          method: get
-          cors: true
-
-  update:
-    handler: todos/update.update
-    events:
-      - http:
-          path: todos/{id}
-          method: put
-          cors: true
-
-  delete:
-    handler: todos/delete.delete
-    events:
-      - http:
-          path: todos/{id}
-          method: delete
-          cors: true
+#  get:
+#    handler: get.get
+#    events:
+#      - http:
+#          path: todos/{id}
+#          method: get
+#          cors: true
+#
+#  update:
+#    handler: update.update
+#    events:
+#      - http:
+#          path: todos/{id}
+#          method: put
+#          cors: true
+#
+#  delete:
+#    handler: delete.delete
+#    events:
+#      - http:
+#          path: todos/{id}
+#          method: delete
+#          cors: true
 
 resources:
   Resources:
