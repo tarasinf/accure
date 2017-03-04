@@ -43,8 +43,8 @@ functions:
           method: get
           cors: true
 
-  update:
-    handler: update.update
+  put:
+    handler: put.put
     events:
       - http:
           path: message/{id}
