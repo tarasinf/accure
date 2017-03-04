@@ -10,7 +10,7 @@ dynamodb = boto3.resource('dynamodb')
 
 def post(event, context):
     data = json.loads(event['body'])
-    if 'firstName' not in data or 'lastName' not in data :
+    if 'firstName' not in data or 'lastName' not in data:
         logging.error("Validation Failed")
         raise Exception("Couldn't create the user item without firstName or lastName.")
         return
@@ -22,11 +22,9 @@ def post(event, context):
     item = {
         'id': str(uuid.uuid1()),
         'friends': data.get('friends', []),
-        'profile': {
-            'firstName': data['firstName'],
-            'lastName': data['lastName'],
-            'avatar': data.get('avatar', None)
-        },
+        'firstName': data['firstName'],
+        'lastName': data['lastName'],
+        'avatar': data.get('avatar', None),
         'ownLocations': data.get('ownLocations', []),
         'createdAt': timestamp,
         'updatedAt': timestamp,

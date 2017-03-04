@@ -21,27 +21,42 @@ def put(event, context):
 
     # update the user in the database
 
+    expressionAttributeNames = {}
+    expressionAttributeValues = {':updatedAt': timestamp}
+    updateExpression = 'SET updatedAt = :updatedAt'
+
+    if 'friends' in data:
+        expressionAttributeNames['#user_friends'] = 'friends'
+        expressionAttributeValues[':friends'] = data['friends']
+        updateExpression += ', #user_friends = :friends'
+
+    if 'firstName' in data:
+        expressionAttributeNames['#user_firstName'] = 'firstName'
+        expressionAttributeValues[':firstName'] = data['firstName']
+        updateExpression += ', #user_firstName = :firstName'
+
+    if 'lastName' in data:
+        expressionAttributeNames['#user_lastName'] = 'lastName'
+        expressionAttributeValues[':lastName'] = data['lastName']
+        updateExpression += ', #user_lastName = :lastName'
+
+    if 'avatar' in data:
+        expressionAttributeNames['#user_avatar'] = 'avatar'
+        expressionAttributeValues[':avatar'] = data['avatar']
+        updateExpression += ', #user_avatar = :avatar'
+    if 'ownLocations' in data:
+        expressionAttributeNames['#user_ownLocations'] = 'ownLocations'
+        expressionAttributeValues[':ownLocations'] = data['ownLocations']
+        updateExpression += ', #user_ownLocations = :ownLocations'
+
+
     result = table.update_item(
         Key={
             'id': event['pathParameters']['id']
         },
-        ExpressionAttributeNames={
-          '#user_friends': 'friends',
-          '#user_profile': 'profile',
-          '#user_ownLocations': 'ownLocations',
-        },
-        ExpressionAttributeValues={
-          ':friends': data.get('friends', []),
-          ':profile': data.get('profile', {}),
-          ':ownLocations': data.get('ownLocations', []),
-
-          ':updatedAt': timestamp,
-        },
-        UpdateExpression='SET #user_friends = :friends, '
-                         '#user_profile = :profile, '
-                         '#user_ownLocations = :ownLocations, '
-
-                         'updatedAt = :updatedAt',
+        ExpressionAttributeNames=expressionAttributeNames,
+        ExpressionAttributeValues=expressionAttributeValues,
+        UpdateExpression=updateExpression,
         ReturnValues='ALL_NEW',
     )
 
