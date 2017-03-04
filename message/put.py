@@ -18,8 +18,7 @@ def put(event, context):
     timestamp = int(time.time() * 1000)
 
     table = dynamodb.Table(os.environ['DYNAMODB_TABLE'])
-
-    ExpressionAttributeNames
+``
     # update the message in the database
 
     result = table.update_item(
@@ -69,3 +68,6 @@ def put(event, context):
     }
 
     return response
+
+
+    
