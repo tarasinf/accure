@@ -10,7 +10,7 @@ dynamodb = boto3.resource('dynamodb')
 
 def post(event, context):
     data = json.loads(event['body'])
-    if 'text' not in data:
+    if 'author' not in data or 'location' not in data:
         logging.error("Validation Failed")
         raise Exception("Couldn't create the mesagge item.")
         return
@@ -22,15 +22,15 @@ def post(event, context):
     item = {
         'id': str(uuid.uuid1()),
         'author': data['author'],
-        'recievers': data['recievers'],
-        'text': data['text'],
-        'checked': False,
-        'time': timestamp,
-        'update': timestamp,
+        'receivers': data.get('receivers', []),
+        'text': data.get('text', ''),
+        'time': data.get('time', None),
+        'updated': timestamp,
+        'created': timestamp,
         'location': data['location'],
-        'description': "description",
-        'status': "privat",
-        'type': "0"
+        'description': data.get('description', ''),
+        'status': "unread",
+        'type': "private"
     }
 
     # write the todo to the database

@@ -6,7 +6,7 @@ provider:
   name: aws
   runtime: python2.7
   environment:
-    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}-message
+    DYNAMODB_TABLE: ${self:service}-${opt:stage, self:provider.stage}
   iamRoleStatements:
     - Effect: Allow
       Action:
