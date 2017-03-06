@@ -59,6 +59,22 @@ functions:
           method: delete
           cors: true
 
+  login:
+    handler: login.login
+    events:
+      - http:
+          path: login
+          method: post
+          cors: true
+
+  registration:
+    handler: registration.registration
+    events:
+      - http:
+          path: registration
+          method: post
+          cors: true
+
 resources:
   Resources:
     TodosDynamoDbTable:

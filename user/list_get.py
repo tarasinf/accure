@@ -12,7 +12,12 @@ def list_get(event, context):
     # fetch all threads from the database
     result = table.scan()
 
-    # create a response
+    for item in result['Items']:
+        if 'login' in item:
+            del item['login']
+        if 'password' in item:
+            del item['password']
+
     response = {
         "statusCode": 200,
         "body": json.dumps(result['Items'], cls=decimalencoder.DecimalEncoder)

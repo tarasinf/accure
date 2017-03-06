@@ -30,6 +30,11 @@ def put(event, context):
         expressionAttributeValues[':friends'] = data['friends']
         updateExpression += ', #user_friends = :friends'
 
+    if 'FCMToken' in data:
+        expressionAttributeNames['#user_FCMToken'] = 'FCMToken'
+        expressionAttributeValues[':FCMToken'] = data['FCMToken']
+        updateExpression += ', #user_FCMToken = :FCMToken'
+
     if 'firstName' in data:
         expressionAttributeNames['#user_firstName'] = 'firstName'
         expressionAttributeValues[':firstName'] = data['firstName']
