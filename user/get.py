@@ -16,7 +16,11 @@ def get(event, context):
         }
     )
 
-    # create a response
+    if 'login' in result['Item']:
+        del result['Item']['login']
+    if 'password' in result['Item']:
+        del result['Item']['password']
+
     response = {
         "statusCode": 200,
         "body": json.dumps(result['Item'],
